@@ -61,6 +61,10 @@ function Login() {
     setValue("email", "@");
   };
 
+  const handleClose = () => {
+    setShowSuccessPopup(false);
+  };
+
   return (
     <section className="relative flex flex-wrap lg:h-screen lg:items-center">
       <div className="w-full px-4 py-12 sm:px-6 sm:py-16 lg:w-1/2 lg:px-8 lg:py-24">
@@ -151,7 +155,7 @@ function Login() {
         </form>
         {showSuccessPopup && (
           <div
-            className="rounded-2xl border border-blue-100 bg-white p-3 shadow-lg sm:p-4 lg:p-6 absolute sm:top-2 lg:top-32  right-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2"
+            className="rounded-2xl border border-blue-100 bg-white p-3 shadow-lg sm:p-4 lg:p-6 absolute sm:top-2 lg:top-32 sm:-right-1/2  lg:right-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2"
             role="alert">
             <div className="flex items-center gap-4">
               <span className="shrink-0 rounded-full bg-blue-400 p-2 text-white">
@@ -166,11 +170,11 @@ function Login() {
             </p>
 
             <div className="mt-6 sm:flex sm:gap-4">
-              <Link
+              <button
                 className="inline-block w-full rounded-lg bg-blue-500 px-5 py-3 text-center text-sm font-semibold text-white sm:w-auto"
-                to="/">
+                onClick={handleClose}>
                 Mark as Read
-              </Link>
+              </button>
             </div>
           </div>
         )}

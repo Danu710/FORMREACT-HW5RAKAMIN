@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import _ from "lodash/fp";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import TableComponent from "./TableComponent";
 
-function Register() {
+const Register = () => {
   const {
     register,
     handleSubmit,
@@ -13,10 +14,18 @@ function Register() {
     formState: { errors },
   } = useForm();
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [data, setData] = useState([]);
+  const [ages, setAges] = useState([]);
+  const [allowances, setAllowances] = useState([]);
+  const [meanAge, setMeanAge] = useState(0);
+  const [meanAllowance, setMeanAllowance] = useState(0);
 
-  const onSubmit = (data) => {
-    // alert(JSON.stringify(data));
+  const onSubmit = (formData) => {
+    setData([...data, formData]);
+    setAges([...ages, parseInt(formData.age)]);
+    setAllowances([...allowances, parseInt(formData.allowance)]);
     setShowSuccessPopup(true);
+    // alert(JSON.stringify(data));
     reset();
   };
 
@@ -86,9 +95,33 @@ function Register() {
     return true;
   };
 
+  const handleClose = () => {
+    setShowSuccessPopup(false);
+  };
+
+  const calculateMean = () => {
+    const totalAge = ages.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    );
+    const meanAge = totalAge / ages.length;
+    setMeanAge(meanAge);
+
+    const totalAllowance = allowances.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      0
+    );
+    const meanAllowance = totalAllowance / allowances.length;
+    setMeanAllowance(meanAllowance);
+  };
+
+  useEffect(() => {
+    calculateMean();
+  }, [ages, allowances]);
+
   return (
     <section className="bg-white">
-      <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
+      <div className="lg:grid lg:min-h-screen lg:grid-cols-12 ">
         <section className="relative flex items-end h-32 bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
           <img
             alt="Night"
@@ -201,7 +234,7 @@ function Register() {
                   name="lastName"
                   {...register("lastName", {
                     required: true,
-                    minLength: 8,
+                    minLength: 5,
                     maxLength: 20,
                     pattern: /^[A-Za-z]+$/i,
                   })}
@@ -217,7 +250,7 @@ function Register() {
                   </p>
                 )}
                 {_.get("lastName.type", errors) === "minLength" && (
-                  <p className="text-red-700">Last Name min 8 characters</p>
+                  <p className="text-red-700">Last Name min 5 characters</p>
                 )}
               </div>
 
@@ -254,8 +287,8 @@ function Register() {
 
                 <input
                   type="number"
-                  id="LastName"
-                  name="last_name"
+                  id="allowance"
+                  name="allowance"
                   {...register("allowance", { validate: validateMoney })}
                   className="w-full py-2 mt-1 text-sm text-gray-700 bg-white border-gray-200 rounded-md shadow-sm"
                 />
@@ -372,6 +405,55 @@ function Register() {
                 </p>
               </div>
             </form>
+
+            <TableComponent data={data} />
+
+            <div className="mx-auto max-w-screen-xl px-4 py-4 my-8 flex flex-col">
+              <div className="flex justify-center items-center">
+                <h1 className=" font-extrabold text-2xl text-greenTokped">
+                  The average value of{" "}
+                  <span className="text-black">age & money</span>
+                </h1>
+              </div>
+              <div className="overflow-x-auto rounded-lg border border-gray-200 mx-4 px-4 mt-8">
+                <table className="min-w-full divide-y-2 divide-gray-200 text-sm">
+                  <thead>
+                    <tr>
+                      <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                        Total Ages
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                        Mean Age
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                        Allowances
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900">
+                        Mean Allowance
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody className="divide-y divide-gray-200">
+                    <tr>
+                      <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                        {ages.join(", ")}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                        {meanAge}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                        {allowances.join(", ")}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                        {meanAllowance}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
             {showSuccessPopup && (
               <div
                 className="rounded-2xl border border-blue-100 bg-white p-3 shadow-lg sm:p-4 lg:p-6 absolute sm:-top-1/2 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2"
@@ -389,11 +471,11 @@ function Register() {
                 </p>
 
                 <div className="mt-6 sm:flex sm:gap-4">
-                  <Link
+                  <button
                     className="inline-block w-full rounded-lg bg-blue-500 px-5 py-3 text-center text-sm font-semibold text-white sm:w-auto"
-                    to="/">
+                    onClick={handleClose}>
                     Mark as Read
-                  </Link>
+                  </button>
                 </div>
               </div>
             )}
@@ -402,6 +484,6 @@ function Register() {
       </div>
     </section>
   );
-}
+};
 
 export default Register;
