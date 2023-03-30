@@ -192,7 +192,7 @@ const Register = () => {
               onSubmit={handleSubmit(onSubmit)}>
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlhtmlFor="FirstName"
+                  htmlFor="FirstName"
                   className="block text-sm font-medium text-gray-700">
                   First Name
                 </label>
@@ -224,7 +224,7 @@ const Register = () => {
 
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlhtmlFor="LastName"
+                  htmlFor="LastName"
                   className="block text-sm font-medium text-gray-700">
                   Last Name
                 </label>
@@ -256,7 +256,7 @@ const Register = () => {
 
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlhtmlFor="age"
+                  htmlFor="age"
                   className="block text-sm font-medium text-gray-700">
                   Age
                 </label>
@@ -280,7 +280,7 @@ const Register = () => {
 
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlhtmlFor="LastName"
+                  htmlFor="LastName"
                   className="block text-sm font-medium text-gray-700">
                   Pocket Money
                 </label>
@@ -299,7 +299,7 @@ const Register = () => {
 
               <div className="col-span-6">
                 <label
-                  htmlhtmlFor="email"
+                  htmlFor="email"
                   className="block text-sm font-medium text-gray-700">
                   Email
                 </label>
@@ -318,7 +318,7 @@ const Register = () => {
 
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlhtmlFor="Password"
+                  htmlFor="Password"
                   className="block text-sm font-medium text-gray-700">
                   Password
                 </label>
@@ -337,7 +337,7 @@ const Register = () => {
 
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlhtmlFor="PasswordConfirmation"
+                  htmlFor="PasswordConfirmation"
                   className="block text-sm font-medium text-gray-700">
                   Password Confirmation
                 </label>
@@ -357,7 +357,7 @@ const Register = () => {
               </div>
 
               <div className="col-span-6">
-                <label htmlhtmlFor="MarketingAccept" className="flex gap-4">
+                <label htmlFor="MarketingAccept" className="flex gap-4">
                   <input
                     type="checkbox"
                     id="MarketingAccept"
@@ -440,13 +440,13 @@ const Register = () => {
                         {ages.join(", ")}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                        {meanAge}
+                        {meanAge.toString()}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                         {allowances.join(", ")}
                       </td>
                       <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-                        {meanAllowance}
+                        {meanAllowance.toString()}
                       </td>
                     </tr>
                   </tbody>
